@@ -1,0 +1,73 @@
+workspace:
+  base: /app
+  path: src
+
+pipeline:
+  test:
+    image: civicactions/fema-grants:latest
+    pull: true
+    commands:
+      - sleep 20
+      - timeout 300 bash -c 'until curl -m1 -s http://web > /dev/null; do sleep 0.5; done'
+      - drush --root=/app/src/docroot core:status
+      - /app/src/vendor/bin/behat -c /app/src/tests/bdd/behat.yml
+      - cd /app/src/web/core && phpunit --testsuite=unit --exclude-group=DependencyInjection,Composer
+  gemini:
+    image: civicactions/docker-gemini:latest
+    pull: true
+    environment:
+      - NODE_NO_WARNINGS=1
+    commands:
+      - cd /app/src/tests/visual
+      - gemini test .
+  pa11y:
+    image: civicactions/docker-pa11y:latest
+    pull: true
+    commands:
+      - cd /home/node/app
+      - cp -R /app/src/tests/accessibility/* .
+      - /home/node/entrypoint.sh node pa11y.js
+    cap_add:
+      - SYS_ADMIN
+  zap:
+    image: owasp/zap2docker-stable
+    commands:
+      - mkdir -p /zap/wrk
+      - cd /zap/wrk
+      - cp -R /app/src/tests/security/* .
+      - zap-baseline.py -d -t http://web -c gen.conf
+  slack:
+    image: plugins/slack
+    pull: true
+    channel: proposal-fema
+    secrets: [ slack_webhook ]
+    when:
+      status: [ success, failure ]
+
+services:
+  db:
+    image: mariadb:10.3
+    pull: true
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=dbuser
+      - MYSQL_PASSWORD=dbpass
+      - MYSQL_DATABASE=drupal
+  web:
+    image: civicactions/fema-grants:latest
+    pull: true
+  hub:
+    image: selenium/hub:3.9.1-actinium
+    pull: true
+  chrome:
+    image: selenium/node-chrome:3.9.1-actinium
+    pull: true
+    environment:
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444
+  firefox:
+    image: selenium/node-firefox:2.53.1
+    pull: true
+    environment:
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444

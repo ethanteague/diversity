@@ -1,0 +1,9 @@
+.env
+*/cache
+.composer/.htaccess
+web/sites/default/files
+docker-compose.override.yml
+web/sites/default/settings.local.php
+web/themes/custom/femagrants/assets/dist
+tests/accessibility/.*
+tests/visual/.config

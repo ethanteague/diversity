@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+set -e
+if [ "$2" = "" ]; then
+  echo "Usage ./bin/deploy [subdomain] [domain]"
+  exit 1
+fi
+if [ "$AWS_ACCESS_KEY_ID" = "" ]; then
+  echo "Environment variables missing - copy .env.template to .env and add values,"
+  echo "run 'source .env' and re-run deploy."
+  exit 1
+fi
+SUBDOMAIN="$1"
+DOMAIN="$2"
+# Create host NAME combining subdomain+domain.
+NAME="${SUBDOMAIN}.${DOMAIN}"
+
+EXISTS=$(docker-machine ls -t "2" -q --filter name="${NAME}")
+if [ "$EXISTS" = "" ]; then
+  echo "[deploy] Attempting to create Docker Machine ${NAME}."
+	docker-machine create "${NAME}" --driver amazonec2
+	echo "[deploy] Docker Machine created. Waiting a few seconds before getting the IP and ID."
+	sleep 10
+	IP=$(docker-machine ip "${NAME}")
+	INSTANCE_ID=$(docker-machine inspect --format='{{.Driver.InstanceId}}' "${NAME}" 2>&1)
+	echo "[deploy] Machine created at IP=${IP}, INSTANCE_ID=${INSTANCE_ID}."
+else
+  IP=$(docker-machine ip "${NAME}")
+	echo "[deploy] Docker machine already exists at ${IP}. To recreate, execute 'docker-machine rm ${NAME}' then re-run deploy."
+fi
+
+echo "[deploy] Managing AWS security groups."
+AWS='docker run --rm -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_VPC_ID -e AWS_DEFAULT_REGION -e AWS_ZONE -e AWS_SUBNET_ID anigeo/awscli'
+${AWS} ec2 revoke-security-group-ingress --group-name docker-machine --protocol tcp --port 80 --cidr 0.0.0.0/0
+${AWS} ec2 authorize-security-group-ingress --group-name docker-machine --protocol tcp --port 80 --cidr 0.0.0.0/0
+${AWS} ec2 revoke-security-group-ingress --group-name docker-machine --protocol tcp --port 443 --cidr 0.0.0.0/0
+${AWS} ec2 authorize-security-group-ingress --group-name docker-machine --protocol tcp --port 443 --cidr 0.0.0.0/0
+
+echo "[deploy] Managing DNS."
+for PREFIX in '' '*.'; do
+	docker run -it --rm -e TOKEN="${CLOUDFLARE_TOKEN}" -e EMAIL="${CLOUDFLARE_EMAIL}" -e DOMAIN="${DOMAIN}" programmerq/cfcli cfcli removerecord "${PREFIX}${SUBDOMAIN}"
+	docker run -it --rm -e TOKEN="${CLOUDFLARE_TOKEN}" -e EMAIL="${CLOUDFLARE_EMAIL}" -e DOMAIN="${DOMAIN}" programmerq/cfcli cfcli -t A addrecord "${PREFIX}${SUBDOMAIN}" "${IP}"
+done
+
+echo "[deploy] Increasing vm.max_map_count on server for ElasticSearch"
+docker-machine ssh "${NAME}" sudo sysctl -w vm.max_map_count=262144
+
+echo "[deploy] Configuring Docker central logging to Graylog"
+docker-machine ssh "${NAME}" 'echo "{\"log-driver\": \"gelf\",\"log-opts\": {\"gelf-address\": \"udp://127.0.0.1:12201\"}}" | sudo tee /etc/docker/daemon.json'
+docker-machine ssh "${NAME}" 'sudo systemctl restart docker.service'
+sleep 10
+
+eval "$(docker-machine env "${NAME}")"
+echo "[deploy] Configuring Docker networking."
+if [ "$(docker network inspect web -f '{{ .Name }}')" != "web" ]; then
+  docker network create web
+fi
+echo "[deploy] Installing DevOps services."
+docker-compose -f deploy/docker-compose.devops.yaml up -d
+
+echo "[deploy] Adding Slack webhook secret to Drone."
+DRONE='docker run --rm -e DRONE_SERVER -e DRONE_TOKEN drone/cli'
+$DRONE secret rm -repository CivicActions/fema-grants -name slack_webhook                                                                                                                      
+$DRONE secret add -repository CivicActions/fema-grants -name slack_webhook -image plugins/slack -event push -event pull_request -value $SLACK_WEBHOOK 
+
+echo "[deploy] Deploy success." 

@@ -1,0 +1,123 @@
+version: '3'
+services:
+  # Traefik: https://docs.traefik.io/
+  proxy:
+    image: traefik
+    labels:
+      - "traefik.backend=traefik"
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:traefik.${DOCKER_MACHINE_NAME}"
+    command: >-
+      --api
+      --docker
+      --docker.domain=${DOCKER_MACHINE_NAME}
+      --docker.watch
+      --logLevel=WARN
+      --defaultEntryPoints=http,https
+      --entryPoints='Name:http Address::80 Redirect.EntryPoint:https'
+      --entryPoints='Name:https Address::443 TLS'
+      --acme
+      --acme.storage=/acme/acme.json
+      --acme.onhostrule=true
+      --acme.entryPoint=https
+      --acme.httpChallenge.entryPoint=http
+      --acme.email="it+femagrants@civicactions.com"
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /dev/null:/traefik.toml
+      - traefik_acme:/acme/
+  # Drone: http://readme.drone.io/admin/installation-guide/
+  drone-server:
+    image: drone/drone:0.8
+    labels:
+      - "traefik.backend=drone-server"
+      - "traefik.port=8000"
+      - "traefik.frontend.rule=Host:drone.${DOCKER_MACHINE_NAME}"
+    networks:
+      - web
+    volumes:
+      - drone:/var/lib/drone/
+    restart: always
+    environment:
+      - DRONE_OPEN=true
+      - DRONE_HOST
+      - DRONE_GITHUB=true
+      - DRONE_GITHUB_CLIENT
+      - DRONE_GITHUB_SECRET
+      - DRONE_SECRET
+  drone-agent:
+    image: drone/agent:0.8
+    command: agent
+    restart: always
+    depends_on: [ drone-server ]
+    networks:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DRONE_SERVER=drone-server:9000
+      - DRONE_SECRET
+  # Graylog: https://hub.docker.com/r/graylog/graylog/
+  graylog:
+    image: graylog/graylog:2.4.3-1
+    environment:
+      - GRAYLOG_PASSWORD_SECRET
+      - GRAYLOG_ROOT_PASSWORD_SHA2
+      - GRAYLOG_WEB_ENDPOINT_URI=https://graylog.${DOCKER_MACHINE_NAME}/api
+    links:
+      - mongo
+      - elasticsearch
+    labels:
+      - "traefik.backend=graylog"
+      - "traefik.port=9000"
+      - "traefik.frontend.rule=Host:graylog.${DOCKER_MACHINE_NAME}"
+    ports:
+      - "127.0.0.1:12201:12201/udp"
+    networks:
+      - web
+  # MongoDB: https://hub.docker.com/_/mongo/
+  mongo:
+    image: mongo:3
+    networks:
+      - web
+  # Elasticsearch: https://www.elastic.co/guide/en/elasticsearch/reference/5.5/docker.html
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.6
+    networks:
+      - web
+    environment:
+      - http.host=0.0.0.0
+      # Disable X-Pack security: https://www.elastic.co/guide/en/elasticsearch/reference/5.5/security-settings.html#general-security-settings
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+  # cAdvisor: https://github.com/google/cadvisor
+  cadvisor:
+    image: google/cadvisor
+    networks:
+      - web
+    restart: always
+    labels:
+      - "traefik.backend=cadvisor"
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:cadvisor.${DOCKER_MACHINE_NAME}"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+networks:
+  web:
+    external: true
+volumes:
+  traefik_acme:
+  drone:

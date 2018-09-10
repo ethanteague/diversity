@@ -1,0 +1,23 @@
+version: "3"
+services:
+  db:
+    image: mariadb:10.3
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=dbuser
+      - MYSQL_PASSWORD=dbpass
+      - MYSQL_DATABASE=drupal
+    networks:
+      - web
+  web:
+    image: civicactions/fema-grants
+    volumes:
+      - .:/app/src
+    links:
+      - db
+    ports:
+      - "8118:80"
+    networks:
+      - web
+networks:
+  web:
