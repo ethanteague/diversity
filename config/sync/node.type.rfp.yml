@@ -1,0 +1,18 @@
+uuid: 2af1cb12-6cfc-4ba9-b7cd-23f1e6736ab3
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: RFP
+type: rfp
+description: 'Used for creating RFP tracking info'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

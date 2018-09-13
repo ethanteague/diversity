@@ -1,0 +1,18 @@
+uuid: 3a3b5e2d-6c05-489a-b14f-a87a5ee9d260
+langcode: en
+status: true
+dependencies:
+  theme:
+    - diversity
+id: diversity_pagetitle
+theme: diversity
+region: content
+weight: -4
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  provider: core
+  label_display: '0'
+visibility: {  }

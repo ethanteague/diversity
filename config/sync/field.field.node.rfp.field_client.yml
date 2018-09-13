@@ -1,0 +1,29 @@
+uuid: 66c01e3c-76d8-417d-8637-0ac29ba5ade3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_client
+    - node.type.rfp
+    - taxonomy.vocabulary.clients
+id: node.rfp.field_client
+field_name: field_client
+entity_type: node
+bundle: rfp
+label: Client
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      clients: clients
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

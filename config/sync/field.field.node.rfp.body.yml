@@ -1,0 +1,22 @@
+uuid: d733ae53-f309-4515-8a31-f529d52b6b87
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.rfp
+  module:
+    - text
+id: node.rfp.body
+field_name: body
+entity_type: node
+bundle: rfp
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+field_type: text_with_summary

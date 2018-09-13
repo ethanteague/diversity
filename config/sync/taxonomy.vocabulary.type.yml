@@ -1,0 +1,9 @@
+uuid: 90f68a0b-3727-42c1-aef1-379f6a523efc
+langcode: en
+status: true
+dependencies: {  }
+name: Type
+vid: type
+description: 'Proposal Type'
+hierarchy: 0
+weight: 0

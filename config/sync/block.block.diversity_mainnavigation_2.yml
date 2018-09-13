@@ -1,0 +1,24 @@
+uuid: 03174657-6f70-4268-afef-c1861f565243
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - system
+  theme:
+    - diversity
+id: diversity_mainnavigation_2
+theme: diversity
+region: mobile_menu
+weight: 0
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main navigation'
+  provider: system
+  label_display: '0'
+  level: 1
+  depth: 0
+visibility: {  }

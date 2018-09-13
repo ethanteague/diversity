@@ -1,0 +1,75 @@
+uuid: 5ae9d55a-d131-4fc2-ba76-ce5828e5d880
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.rfp.body
+    - field.field.node.rfp.field_client
+    - field.field.node.rfp.field_contract_type
+    - field.field.node.rfp.field_potential_team_members
+    - field.field.node.rfp.field_start_date
+    - field.field.node.rfp.field_status
+    - node.type.rfp
+  module:
+    - datetime
+    - text
+    - user
+id: node.rfp.default
+targetEntityType: node
+bundle: rfp
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_client:
+    weight: 102
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_contract_type:
+    weight: 103
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_potential_team_members:
+    weight: 104
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_start_date:
+    weight: 105
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_status:
+    weight: 106
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

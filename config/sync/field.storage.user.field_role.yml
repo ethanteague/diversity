@@ -1,0 +1,21 @@
+uuid: b9e5d3cd-5021-4442-9d4b-a6d3775aab89
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_role
+field_name: field_role
+entity_type: user
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,29 @@
+uuid: 242d353e-afe7-414a-8bac-b145ce6b126a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_potential_team_members
+    - node.type.rfp
+id: node.rfp.field_potential_team_members
+field_name: field_potential_team_members
+entity_type: node
+bundle: rfp
+label: 'Potential Team members'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    include_anonymous: true
+    filter:
+      type: _none
+    target_bundles: null
+    sort:
+      field: roles
+      direction: ASC
+    auto_create: true
+field_type: entity_reference

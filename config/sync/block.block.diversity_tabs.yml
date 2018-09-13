@@ -1,0 +1,20 @@
+uuid: 47252dad-e09f-4913-8eba-383af77fe109
+langcode: en
+status: true
+dependencies:
+  theme:
+    - diversity
+id: diversity_tabs
+theme: diversity
+region: content
+weight: -3
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  provider: core
+  label_display: '0'
+  primary: true
+  secondary: true
+visibility: {  }

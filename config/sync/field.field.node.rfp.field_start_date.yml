@@ -1,0 +1,24 @@
+uuid: 2568f778-ac23-4b5e-a1da-5ae9f2ac2dba
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_start_date
+    - node.type.rfp
+  module:
+    - datetime
+id: node.rfp.field_start_date
+field_name: field_start_date
+entity_type: node
+bundle: rfp
+label: 'Start Date'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    default_date_type: relative
+    default_date: '+30 days'
+default_value_callback: ''
+settings: {  }
+field_type: datetime
