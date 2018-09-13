@@ -4,7 +4,7 @@
 *
 * @license http://opensource.org/licenses/MIT
 * @link https://github.com/thephpleague/csv/
-* @version 9.1.2
+* @version 9.1.4
 * @package League.csv
 *
 * For the full copyright and license information, please view the LICENSE
@@ -167,7 +167,7 @@ class Stream implements SeekableIterator
      *
      * @return static
      */
-    public static function createFromPath(string $path, string $open_mode = 'r', $context = null): self
+    public static function createFromPath(string $path, string $open_mode = 'r', $context = null)
     {
         $args = [$path, $open_mode];
         if (null !== $context) {
@@ -192,7 +192,7 @@ class Stream implements SeekableIterator
      *
      * @return static
      */
-    public static function createFromString(string $content): self
+    public static function createFromString(string $content)
     {
         $resource = fopen('php://temp', 'r+');
         fwrite($resource, $content);
@@ -297,11 +297,11 @@ class Stream implements SeekableIterator
      * @param string $enclosure
      * @param string $escape
      *
-     * @return int|bool
+     * @return int|null|bool
      */
     public function fputcsv(array $fields, string $delimiter = ',', string $enclosure = '"', string $escape = '\\')
     {
-        $controls =  $this->filterControl($delimiter, $enclosure, $escape, __METHOD__);
+        $controls = $this->filterControl($delimiter, $enclosure, $escape, __METHOD__);
 
         return fputcsv($this->stream, $fields, ...$controls);
     }

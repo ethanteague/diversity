@@ -21,6 +21,9 @@ require_once __DIR__.'/Fixtures/ClassesWithParents/CInterface.php';
 require_once __DIR__.'/Fixtures/ClassesWithParents/B.php';
 require_once __DIR__.'/Fixtures/ClassesWithParents/A.php';
 
+/**
+ * @group legacy
+ */
 class ClassCollectionLoaderTest extends TestCase
 {
     public function testTraitDependencies()
@@ -228,7 +231,7 @@ class ClassCollectionLoaderTest extends TestCase
             }
         });
 
-        $strictTypes = defined('HHVM_VERSION') ? '' : "\nnamespace {require __DIR__.'/Fixtures/Namespaced/WithStrictTypes.php';}";
+        $strictTypes = \defined('HHVM_VERSION') ? '' : "\nnamespace {require __DIR__.'/Fixtures/Namespaced/WithStrictTypes.php';}";
 
         ClassCollectionLoader::load(
             array('Namespaced\\WithComments', 'Pearlike_WithComments', 'Namespaced\\WithDirMagic', 'Namespaced\\WithFileMagic', 'Namespaced\\WithHaltCompiler', $strictTypes ? 'Namespaced\\WithStrictTypes' : 'Namespaced\\WithComments'),

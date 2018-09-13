@@ -6,8 +6,8 @@ type: module
 
 configure: no_autocomplete.admin_settings_form
 
-# Information added by Drupal.org packaging script on 2018-01-31
-version: '8.x-1.2'
+# Information added by Drupal.org packaging script on 2018-03-26
+version: '8.x-1.4'
 core: '8.x'
 project: 'no_autocomplete'
-datestamp: 1517431397
+datestamp: 1522079301

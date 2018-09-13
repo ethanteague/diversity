@@ -4,10 +4,28 @@ status: true
 dependencies:
   config:
     - field.field.node.basic_page.body
+    - field.field.node.basic_page.field_content_block
     - node.type.basic_page
   module:
+    - content_moderation
+    - field_group
+    - paragraphs
     - path
     - text
+third_party_settings:
+  field_group:
+    group_content_blocks:
+      children:
+        - field_content_block
+      parent_name: ''
+      weight: 10
+      format_type: fieldset
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: 'Content blocks'
 id: node.basic_page.default
 targetEntityType: node
 bundle: basic_page
@@ -15,7 +33,7 @@ mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 121
+    weight: 8
     settings:
       rows: 9
       summary_rows: 3
@@ -24,13 +42,31 @@ content:
     region: content
   created:
     type: datetime_timestamp
-    weight: 10
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_content_block:
+    type: entity_reference_paragraphs
+    weight: 9
+    settings:
+      title: 'Content block'
+      title_plural: 'Content blocks'
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: uswds_text
+    third_party_settings: {  }
+    region: content
+  moderation_state:
+    type: moderation_state_default
+    weight: 6
+    settings: {  }
+    region: content
+    third_party_settings: {  }
   path:
     type: path
-    weight: 30
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -38,26 +74,26 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 15
+    weight: 3
     region: content
     third_party_settings: {  }
   status:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 120
+    weight: 7
     region: content
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 16
+    weight: 4
     region: content
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: -5
+    weight: 0
     region: content
     settings:
       size: 60
@@ -65,7 +101,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 5
+    weight: 1
     settings:
       match_operator: CONTAINS
       size: 60

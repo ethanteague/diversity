@@ -14,8 +14,7 @@ INTRODUCTION
 
 The No Autocomplete module adds the autocomplete=off attribute to selected key
 user forms. On a browser that respects this setting, it means that the browser
-will not try to autocomplete the password on the user login forms, or the whole
-user edit form.
+will not try to autocomplete the password on the user login forms.
 
  * For a full description of the module, visit the project page:
    https://www.drupal.org/project/no_autocomplete
@@ -60,14 +59,6 @@ CONFIGURATION
    - drush na-login
 
      Configures the "autocomplete=off" option on the user login form.
-
-   - drush na-profile
-
-     Configures the "autocomplete=off" option on the user profile edit form.
-
-   - drush na-summary
-
-     Shows the variables status.
 
 
 MAINTAINERS

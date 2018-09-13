@@ -5,6 +5,3 @@ no_autocomplete.settings:
     no_autocomplete_login_form:
       type: boolean
       label: 'The status for the "autocomplete=off" option on user login form'
-    no_autocomplete_profile_form:
-      type: boolean
-      label: 'The status for the "autocomplete=off" option on user profile edit form'

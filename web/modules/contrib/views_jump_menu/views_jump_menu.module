@@ -1,0 +1,73 @@
+<?php
+
+use Drupal\Core\Template\Attribute;
+use Drupal\views\ResultRow;
+use Drupal\views\ViewExecutable;
+
+\Drupal::moduleHandler()->loadInclude('views_jump_menu', 'inc', 'views_jump_menu.theme');
+
+/**
+ * Implements hook_theme().
+ */
+function views_jump_menu_theme($existing, $type, $theme, $path) {
+  return [
+    'views_jump_menu' => [
+      'variables' => ['view' => NULL, 'rows' => NULL],
+    ],
+  ];
+}
+
+/**
+ * Gets classes for the jump menu select element.
+ *
+ * @param array $options
+ *   Options passed in for the select element
+ *
+ * @return array
+ *   A cleaned array of class names
+ */
+function views_jump_menu_get_select_classes($options) {
+  $class = $options['class'] || '';
+
+  $class = explode(' ', $class);
+  $class[] = 'ViewsJumpMenu';
+  $class[] = 'js-viewsJumpMenu';
+
+  return array_map('\Drupal\Component\Utility\Html::cleanCssIdentifier', $class);
+}
+
+/**
+ * Implements template_preprocess_views_jump_menu();
+ */
+function views_jump_menu_preprocess_views_jump_menu(&$variables) {
+  /** @var ViewExecutable $view */
+  $view = $variables['view'];
+
+  /** @var ResultRow[] $rows */
+  $rows = $variables['rows'];
+
+  // View options set by user.
+  $options = $view->style_plugin->options;
+
+  $select = [
+    'select_text' => $options['select_text'],
+    'attributes' => new Attribute(array('class' => views_jump_menu_get_select_classes($options))),
+    'options' => [],
+  ];
+
+  if (!empty($options['label_field'])) {
+
+    /**
+     * @var  $id
+     * @var ResultRow $row
+     */
+    foreach ($rows as $id => $row) {
+      $select['options'][$id] = [
+        'label' => $view->field[$options['label_field']]->advancedRender($row),
+        'url' => $view->field[$options['url_field']]->advancedRender($row),
+      ];
+    }
+  }
+
+  $variables['select'] = $select;
+}

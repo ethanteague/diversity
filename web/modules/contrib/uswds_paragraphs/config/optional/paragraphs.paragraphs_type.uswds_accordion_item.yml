@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {  }
+id: uswds_accordion_item
+label: 'Accordion Item'
+behavior_plugins: {  }

@@ -13,8 +13,8 @@ namespace Symfony\Component\DependencyInjection\Tests\Compiler;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Alias;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\DecoratorServicePass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class DecoratorServicePassTest extends TestCase
 {
@@ -144,6 +144,9 @@ class DecoratorServicePassTest extends TestCase
         $this->assertEquals(array('bar' => array('attr' => 'baz'), 'foobar' => array('attr' => 'bar')), $container->getDefinition('baz')->getTags());
     }
 
+    /**
+     * @group legacy
+     */
     public function testProcessMergesAutowiringTypesInDecoratingDefinitionAndRemoveThemFromDecoratedDefinition()
     {
         $container = new ContainerBuilder();

@@ -1,0 +1,17 @@
+name: USWDS Paragraphs
+type: module
+description: Several Paragraph types for use with the U.S. Web Design Standards.
+# core: 8.x
+package: Paragraphs
+dependencies:
+  - drupal:image
+  - drupal:link
+  - drupal:options
+  - drupal:text
+  - paragraphs:paragraphs
+
+# Information added by Drupal.org packaging script on 2017-08-09
+version: '8.x-1.0-beta3'
+core: '8.x'
+project: 'uswds_paragraphs'
+datestamp: 1502243648

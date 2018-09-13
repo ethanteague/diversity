@@ -4,14 +4,13 @@ workspace:
 
 pipeline:
   test:
-    image: civicactions/fema-grants:latest
+    image: captbobalou/va-demo:latest
     pull: true
     commands:
       - sleep 20
       - timeout 300 bash -c 'until curl -m1 -s http://web > /dev/null; do sleep 0.5; done'
       - drush --root=/app/src/docroot core:status
       - /app/src/vendor/bin/behat -c /app/src/tests/bdd/behat.yml
-      - cd /app/src/web/core && phpunit --testsuite=unit --exclude-group=DependencyInjection,Composer
   gemini:
     image: civicactions/docker-gemini:latest
     pull: true
@@ -39,7 +38,7 @@ pipeline:
   slack:
     image: plugins/slack
     pull: true
-    channel: proposal-fema
+    channel: vagov-dev
     secrets: [ slack_webhook ]
     when:
       status: [ success, failure ]
@@ -54,7 +53,7 @@ services:
       - MYSQL_PASSWORD=dbpass
       - MYSQL_DATABASE=drupal
   web:
-    image: civicactions/fema-grants:latest
+    image: captbobalou/va-demo:latest
     pull: true
   hub:
     image: selenium/hub:3.9.1-actinium

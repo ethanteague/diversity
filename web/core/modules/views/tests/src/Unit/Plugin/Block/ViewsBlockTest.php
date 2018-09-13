@@ -70,7 +70,7 @@ class ViewsBlockTest extends UnitTestCase {
 
     $this->executable = $this->getMockBuilder('Drupal\views\ViewExecutable')
       ->disableOriginalConstructor()
-      ->setMethods(['buildRenderable', 'setDisplay', 'setItemsPerPage'])
+      ->setMethods(['buildRenderable', 'setDisplay', 'setItemsPerPage', 'getShowAdminLinks'])
       ->getMock();
     $this->executable->expects($this->any())
       ->method('setDisplay')
@@ -204,6 +204,8 @@ class ViewsBlockTest extends UnitTestCase {
 namespace Drupal\views\Plugin\Block;
 
 if (!function_exists('views_add_contextual_links')) {
+
   function views_add_contextual_links() {
   }
+
 }

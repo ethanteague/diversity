@@ -1,0 +1,16 @@
+uuid: 55069124-f298-405e-9ab0-85d0530ed70f
+langcode: en
+status: true
+dependencies: {  }
+id: administrator
+label: Administrator
+weight: 2
+is_admin: true
+permissions:
+  - 'access content'
+  - 'administer workflow'
+  - 'bypass internal_status workflow_transition access'
+  - 'create review_status workflow_transition'
+  - 'create update_internal_status workflow_transition'
+  - 'use text format filtered_html'
+  - 'use text format full_html'

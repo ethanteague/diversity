@@ -4,7 +4,7 @@
 *
 * @license http://opensource.org/licenses/MIT
 * @link https://github.com/thephpleague/csv/
-* @version 9.1.2
+* @version 9.1.4
 * @package League.csv
 *
 * For the full copyright and license information, please view the LICENSE
@@ -89,7 +89,7 @@ class Statement
     /**
      * Set LimitIterator Offset
      *
-     * @param $offset
+     * @param int $offset
      *
      * @throws Exception if the offset is lesser than 0
      *

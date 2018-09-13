@@ -1,0 +1,34 @@
+uuid: 5cc9d675-09f7-40ac-8568-832dcb2e886e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.uswds_column.field_uswds_body
+    - paragraphs.paragraphs_type.uswds_column
+  module:
+    - text
+_core:
+  default_config_hash: dlDsnNlfncaOEkR9SzK4JyjaXR9eBHqi9wWQ6jsPd2I
+id: paragraph.uswds_column.default
+targetEntityType: paragraph
+bundle: uswds_column
+mode: default
+content:
+  field_uswds_body:
+    weight: 0
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    settings: {  }
+    region: content
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

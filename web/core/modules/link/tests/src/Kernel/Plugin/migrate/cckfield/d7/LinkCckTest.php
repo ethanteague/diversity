@@ -39,7 +39,7 @@ class LinkCckTest extends KernelTestBase {
 
     $migration = $this->prophesize(MigrationInterface::class);
 
-    // The plugin's processFieldInstance() method will call
+    // The plugin's alterFieldInstanceMigration() method will call
     // mergeProcessOfProperty() and return nothing. So, in order to examine the
     // process pipeline created by the plugin, we need to ensure that
     // getProcess() always returns the last input to mergeProcessOfProperty().
@@ -52,10 +52,10 @@ class LinkCckTest extends KernelTestBase {
   }
 
   /**
-   * @covers ::processCckFieldValues
+   * @covers ::alterFieldInstanceMigration
    */
-  public function testProcessCckFieldValues() {
-    $this->plugin->processFieldInstance($this->migration);
+  public function testAlterFieldInstanceMigration($method = 'alterFieldInstanceMigration') {
+    $this->plugin->$method($this->migration);
 
     $expected = [
       'plugin' => 'static_map',

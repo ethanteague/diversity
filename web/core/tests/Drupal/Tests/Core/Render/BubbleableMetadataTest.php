@@ -38,6 +38,7 @@ class BubbleableMetadataTest extends UnitTestCase {
     if (!$b instanceof BubbleableMetadata) {
       $renderer = $this->getMockBuilder('Drupal\Core\Render\Renderer')
         ->disableOriginalConstructor()
+        ->setMethods(['mergeAttachments'])
         ->getMock();
       $renderer->expects($this->never())
         ->method('mergeAttachments');
@@ -640,7 +641,6 @@ class BubbleableMetadataTest extends UnitTestCase {
     ];
   }
 
-
   /**
    * @covers ::addCacheableDependency
    * @dataProvider providerTestMerge
@@ -675,17 +675,17 @@ class BubbleableMetadataTest extends UnitTestCase {
       'merge-cacheable-metadata' => [
         (new BubbleableMetadata())->setCacheContexts(['foo'])->setCacheTags(['foo'])->setCacheMaxAge(20),
         (new CacheableMetadata())->setCacheContexts(['bar'])->setCacheTags(['bar'])->setCacheMaxAge(60),
-        (new BubbleableMetadata())->setCacheContexts(['foo', 'bar'])->setCacheTags(['foo', 'bar'])->setCacheMaxAge(20)
+        (new BubbleableMetadata())->setCacheContexts(['foo', 'bar'])->setCacheTags(['foo', 'bar'])->setCacheMaxAge(20),
       ],
       'merge-bubbleable-metadata' => [
         (new BubbleableMetadata())->setCacheContexts(['foo'])->setCacheTags(['foo'])->setCacheMaxAge(20)->setAttachments(['foo' => []]),
         (new BubbleableMetadata())->setCacheContexts(['bar'])->setCacheTags(['bar'])->setCacheMaxAge(60)->setAttachments(['bar' => []]),
-        (new BubbleableMetadata())->setCacheContexts(['foo', 'bar'])->setCacheTags(['foo', 'bar'])->setCacheMaxAge(20)->setAttachments(['foo' => [], 'bar' => []])
+        (new BubbleableMetadata())->setCacheContexts(['foo', 'bar'])->setCacheTags(['foo', 'bar'])->setCacheMaxAge(20)->setAttachments(['foo' => [], 'bar' => []]),
       ],
       'merge-attachments-metadata' => [
         (new BubbleableMetadata())->setAttachments(['foo' => []]),
         (new BubbleableMetadata())->setAttachments(['baro' => []]),
-        (new BubbleableMetadata())->setAttachments(['foo' => [], 'bar' => []])
+        (new BubbleableMetadata())->setAttachments(['foo' => [], 'bar' => []]),
       ],
     ];
   }

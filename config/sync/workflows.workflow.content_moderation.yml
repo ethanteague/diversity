@@ -1,0 +1,54 @@
+uuid: 26d7bbe4-d108-4ee9-b324-0791295abb93
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.basic_page
+  module:
+    - content_moderation
+id: content_moderation
+label: 'Content moderation'
+type: content_moderation
+type_settings:
+  states:
+    draft:
+      label: Draft
+      published: false
+      default_revision: false
+      weight: -2
+    in_review:
+      published: false
+      default_revision: false
+      label: 'In Review'
+      weight: -1
+    published:
+      label: Published
+      published: true
+      default_revision: true
+      weight: 0
+  transitions:
+    create_new_draft:
+      label: 'Create New Draft'
+      to: draft
+      weight: -2
+      from:
+        - draft
+        - published
+    publish:
+      label: Publish
+      to: published
+      weight: 0
+      from:
+        - draft
+        - in_review
+        - published
+    send_for_review:
+      label: 'Send for review'
+      from:
+        - draft
+        - in_review
+      to: in_review
+      weight: -1
+  entity_types:
+    node:
+      - basic_page

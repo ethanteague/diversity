@@ -11,17 +11,17 @@ uswds_header_style: basic
 uswds_header_mega: 0
 uswds_search: 0
 uswds_government_banner: 0
-uswds_footer_style: medium
-uswds_footer_agency: 0
-uswds_footer_agency_name: ''
-uswds_footer_agency_url: ''
+uswds_footer_style: big
+uswds_footer_agency: 1
+uswds_footer_agency_name: 'Veterans Administration'
+uswds_footer_agency_url: 'https://www.va.gov'
 uswds_footer_agency_logo: ''
 uswds_contact_center: ''
-uswds_email: ''
-uswds_phone: ''
-uswds_facebook: ''
-uswds_twitter: ''
-uswds_youtube: ''
+uswds_email: email@va.gov
+uswds_phone: 123-456-7890
+uswds_facebook: 'https://facebook.com/va'
+uswds_twitter: 'https://twitter.com/va'
+uswds_youtube: 'https://youtube.com/'
 uswds_rss: ''
 uswds_paragraphs_edge_to_edge: 0
 uswds_menu_accordion_duplicate_parent: 0

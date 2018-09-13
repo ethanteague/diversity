@@ -1,0 +1,20 @@
+uuid: 2acdff0d-3e8a-4697-9d64-b794db5ac056
+langcode: en
+status: true
+dependencies:
+  theme:
+    - vademo
+id: tabs
+theme: vademo
+region: content
+weight: -3
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  provider: core
+  label_display: '0'
+  primary: true
+  secondary: true
+visibility: {  }

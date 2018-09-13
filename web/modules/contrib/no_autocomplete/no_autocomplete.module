@@ -6,8 +6,7 @@
  *
  * This module adds the autocomplete=off attribute to selected key user forms.
  * On a browser that respects this setting, it means that the browser will not
- * try to autocomplete the password on the user login forms, or the whole
- * user edit form.
+ * try to autocomplete the password on the user login forms.
  *
  * Many browsers, including current Chrome as of this writing and LastPass
  * do not respect this setting. But it can
@@ -19,6 +18,7 @@
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
+use Drupal\Core\Cache\Cache;
 
 /**
  * Implements hook_help().
@@ -29,7 +29,7 @@ function no_autocomplete_help($route_name, RouteMatchInterface $route_match) {
     case 'help.page.no_autocomplete':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('The No Autocomplete module adds the autocomplete=off attribute to selected key user forms. On a browser that respects this setting, it means that the browser will not try to autocomplete the password on the user login forms, or the whole user edit form.') . '</p>';
+      $output .= '<p>' . t('The No Autocomplete module adds the autocomplete=off attribute to selected key user forms. On a browser that respects this setting, it means that the browser will not try to autocomplete the password on the user login forms.') . '</p>';
       $output .= '<h3>' . t('Uses') . '</h3>';
       $output .= '<dl>';
       $output .= '<dt>' . t('Configuring the module') . '</dt>';
@@ -41,21 +41,17 @@ function no_autocomplete_help($route_name, RouteMatchInterface $route_match) {
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  *
  * Turn off autocomplete on key forms.
  */
-function no_autocomplete_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  // Add to the user_login and user_profile_form.
-  if (substr($form_id, 0, 10) == 'user_login' && \Drupal::config('no_autocomplete.settings')->get('no_autocomplete_login_form')) {
-    if (empty($form['pass']['#attributes'])) {
-      $form['pass']['#attributes'] = [];
-    }
-    $form['pass']['#attributes']['autocomplete'] = 'off';
-  }
+function no_autocomplete_form_user_login_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Adding cache tags.
+  $form['name']['#cache']['keys'][] = 'no_autocomplete';
+  $form['name']['#cache']['tags'] = Cache::mergeTags(['config:no_autocomplete.settings']);
 
-  // Remove autofill from the user edit form.
-  if ($form_id == 'user_profile_form' && \Drupal::config('no_autocomplete.settings')->get('no_autocomplete_profile_form')) {
-    $form['#attributes']['autocomplete'] = 'off';
+  // Add to the user_login.
+  if (\Drupal::service('config.factory')->get('no_autocomplete.settings')->get('no_autocomplete_login_form')) {
+    $form['pass']['#attributes']['autocomplete'] = 'off';
   }
 }

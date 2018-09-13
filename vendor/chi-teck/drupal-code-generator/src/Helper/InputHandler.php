@@ -8,6 +8,7 @@ use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
 /**
@@ -41,13 +42,17 @@ class InputHandler extends Helper {
    */
   public function collectVars(InputInterface $input, OutputInterface $output, array $questions, array $vars = []) {
 
-    // A user can pass answers through command line option.
+    // A user can pass answers through the command line option.
+    $answers = NULL;
     if ($answers_raw = $input->getOption('answers')) {
       $answers = json_decode($answers_raw, TRUE);
       if (!is_array($answers)) {
         throw new InvalidOptionException('Answers should be encoded in JSON format.');
       }
     }
+
+    /** @var \Symfony\Component\Console\Helper\QuestionHelper $question_helper */
+    $question_helper = $this->getHelperSet()->get('question');
 
     /** @var \DrupalCodeGenerator\Command\GeneratorInterface $command */
     $command = $this->getHelperSet()->getCommand();
@@ -81,19 +86,24 @@ class InputHandler extends Helper {
           $default_value = call_user_func($default_value, $vars);
         }
       }
-
       // Default value may have tokens.
       $default_value = Utils::tokenReplace($default_value, $vars);
-
       $this->setQuestionDefault($question, $default_value);
 
-      if (isset($answers[$name])) {
-        $answer = $answers[$name];
+      if ($answers) {
+        if (array_key_exists($name, $answers)) {
+          $answer = $answers[$name];
+          // Turn 'yes/no' string into boolean.
+          if ($question instanceof ConfirmationQuestion && !is_bool($answer)) {
+            $answer = strcasecmp($answer, 'yes') == 0;
+          }
+        }
+        else {
+          $answer = $default_value;
+        }
       }
       else {
         $this->formatQuestionText($question);
-        /** @var \Symfony\Component\Console\Helper\QuestionHelper $question_helper */
-        $question_helper = $this->getHelperSet()->get('question');
         $answer = $question_helper->ask($input, $output, $question);
       }
 
@@ -142,6 +152,8 @@ class InputHandler extends Helper {
    *
    * @deprecated
    *  Use Symfony\Component\Console\Question\Question to define questions.
+   *
+   * @codeCoverageIgnore
    */
   protected function normalizeQuestions(array $questions) {
     return array_map(function ($question) {

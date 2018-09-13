@@ -15,12 +15,14 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Compiler\FactoryReturnTypePass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\Tests\Fixtures\factoryFunction;
 use Symfony\Component\DependencyInjection\Tests\Fixtures\FactoryDummy;
+use Symfony\Component\DependencyInjection\Tests\Fixtures\factoryFunction;
 use Symfony\Component\DependencyInjection\Tests\Fixtures\FactoryParent;
 
 /**
  * @author Guilhem N. <egetick@gmail.com>
+ *
+ * @group legacy
  */
 class FactoryReturnTypePassTest extends TestCase
 {
@@ -57,7 +59,7 @@ class FactoryReturnTypePassTest extends TestCase
      */
     public function testReturnTypes($factory, $returnType, $hhvmSupport = true)
     {
-        if (!$hhvmSupport && defined('HHVM_VERSION')) {
+        if (!$hhvmSupport && \defined('HHVM_VERSION')) {
             $this->markTestSkipped('Scalar typehints not supported by hhvm.');
         }
 
@@ -104,22 +106,16 @@ class FactoryReturnTypePassTest extends TestCase
         $this->assertNull($factory2->getClass());
     }
 
+    /**
+     * @requires function ReflectionMethod::getReturnType
+     * @expectedDeprecation Relying on its factory's return-type to define the class of service "factory" is deprecated since Symfony 3.3 and won't work in 4.0. Set the "class" attribute to "Symfony\Component\DependencyInjection\Tests\Fixtures\FactoryDummy" on the service definition instead.
+     */
     public function testCompile()
     {
         $container = new ContainerBuilder();
 
         $factory = $container->register('factory');
         $factory->setFactory(array(FactoryDummy::class, 'createFactory'));
-
-        if (!method_exists(\ReflectionMethod::class, 'getReturnType')) {
-            if (method_exists($this, 'expectException')) {
-                $this->expectException(\RuntimeException::class);
-                $this->expectExceptionMessage('Please add the class to service "factory" even if it is constructed by a factory since we might need to add method calls based on compile-time checks.');
-            } else {
-                $this->setExpectedException(\RuntimeException::class, 'Please add the class to service "factory" even if it is constructed by a factory since we might need to add method calls based on compile-time checks.');
-            }
-        }
-
         $container->compile();
 
         $this->assertEquals(FactoryDummy::class, $container->getDefinition('factory')->getClass());

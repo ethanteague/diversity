@@ -10,7 +10,7 @@ services:
     networks:
       - web
   web:
-    image: civicactions/fema-grants
+    image: captbobalou/va-demo
     links:
       - db
     labels:

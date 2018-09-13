@@ -1,0 +1,56 @@
+uuid: 2ae8b03e-50cb-43f2-8f0f-556bffea127c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content_block
+    - node.type.basic_page
+    - paragraphs.paragraphs_type.uswds_accordion_item
+    - paragraphs.paragraphs_type.uswds_column
+    - paragraphs.paragraphs_type.uswds_hero
+  module:
+    - entity_reference_revisions
+id: node.basic_page.field_content_block
+field_name: field_content_block
+entity_type: node
+bundle: basic_page
+label: 'Content block'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 1
+    target_bundles:
+      uswds_accordion_item: uswds_accordion_item
+      uswds_column: uswds_column
+      uswds_hero: uswds_hero
+    target_bundles_drag_drop:
+      uswds_accordion:
+        weight: 9
+        enabled: false
+      uswds_accordion_item:
+        enabled: true
+        weight: 10
+      uswds_column:
+        enabled: true
+        weight: 11
+      uswds_graphic_list:
+        weight: 12
+        enabled: false
+      uswds_grid:
+        weight: 13
+        enabled: false
+      uswds_hero:
+        enabled: true
+        weight: 14
+      uswds_media_block:
+        weight: 15
+        enabled: false
+      uswds_text:
+        weight: 16
+        enabled: false
+field_type: entity_reference_revisions

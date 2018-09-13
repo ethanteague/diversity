@@ -25,4 +25,7 @@ content:
   links:
     weight: 100
     region: content
-hidden: {  }
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_content_block: true

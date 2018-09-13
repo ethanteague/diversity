@@ -1,0 +1,7 @@
+uuid: 05bd795d-eeec-469b-9431-6d40aee5b937
+langcode: en
+status: true
+dependencies: {  }
+id: uswds_media_block
+label: 'Media block'
+behavior_plugins: {  }

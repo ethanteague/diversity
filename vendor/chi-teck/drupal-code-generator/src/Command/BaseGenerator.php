@@ -2,6 +2,7 @@
 
 namespace DrupalCodeGenerator\Command;
 
+use DrupalCodeGenerator\ApplicationFactory;
 use DrupalCodeGenerator\Asset;
 use DrupalCodeGenerator\Utils;
 use Symfony\Component\Console\Command\Command;
@@ -114,7 +115,7 @@ abstract class BaseGenerator extends Command implements GeneratorInterface {
     }
 
     if (!$this->templatePath) {
-      $this->templatePath = DCG_ROOT . '/templates';
+      $this->templatePath = ApplicationFactory::getRoot() . '/templates';
     }
   }
 
@@ -125,8 +126,7 @@ abstract class BaseGenerator extends Command implements GeneratorInterface {
     $this->getHelperSet()->setCommand($this);
     $this->getHelper('dcg_renderer')->addPath($this->templatePath);
 
-    $directory_option = $input->getOption('directory');
-    $directory = $directory_option ? Utils::normalizePath($directory_option) : getcwd();
+    $directory = $input->getOption('directory') ?: getcwd();
     // No need to look up for extension root when generating an extension.
     $extension_destinations = ['modules', 'profiles', 'themes'];
     $is_extension = in_array($this->destination, $extension_destinations);

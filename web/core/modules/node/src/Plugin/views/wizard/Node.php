@@ -28,20 +28,6 @@ class Node extends WizardPluginBase {
   protected $createdColumn = 'node_field_data-created';
 
   /**
-   * Set default values for the filters.
-   */
-  protected $filters = [
-    'status' => [
-      'value' => TRUE,
-      'table' => 'node_field_data',
-      'field' => 'status',
-      'plugin_id' => 'boolean',
-      'entity_type' => 'node',
-      'entity_field' => 'status',
-    ]
-  ];
-
-  /**
    * Overrides Drupal\views\Plugin\views\wizard\WizardPluginBase::getAvailableSorts().
    *
    * @return array
@@ -51,7 +37,7 @@ class Node extends WizardPluginBase {
   public function getAvailableSorts() {
     // You can't execute functions in properties, so override the method
     return [
-      'node_field_data-title:ASC' => $this->t('Title')
+      'node_field_data-title:ASC' => $this->t('Title'),
     ];
   }
 

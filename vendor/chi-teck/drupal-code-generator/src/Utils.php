@@ -63,7 +63,7 @@ class Utils {
    * @see http://php.net/manual/en/language.oop5.basic.php
    */
   public static function validateClassName($value) {
-    if (!preg_match('/^[A-Z][a-zA-Z0-0][a-zA-Z0-9]*$/', $value)) {
+    if (!preg_match('/^[A-Z][a-zA-Z0-9]+$/', $value)) {
       throw new \UnexpectedValueException('The value is not correct class name.');
     }
     return $value;
@@ -83,6 +83,9 @@ class Utils {
 
   /**
    * Returns normalized file path.
+   *
+   * @codeCoverageIgnore
+   * @deprecated
    */
   public static function normalizePath($path) {
     $parts = [];

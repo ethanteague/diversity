@@ -1,0 +1,24 @@
+uuid: efa1e629-bd2e-4adb-8df7-e1f3a1bccfb2
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.account
+  module:
+    - system
+  theme:
+    - vademo
+id: vademo_useraccountmenu
+theme: vademo
+region: secondary_menu
+weight: 0
+provider: null
+plugin: 'system_menu_block:account'
+settings:
+  id: 'system_menu_block:account'
+  label: 'User account menu'
+  provider: system
+  label_display: '0'
+  level: 1
+  depth: 0
+visibility: {  }

@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {  }
+id: uswds_text
+label: Text
+behavior_plugins: {  }

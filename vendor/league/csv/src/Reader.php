@@ -4,7 +4,7 @@
 *
 * @license http://opensource.org/licenses/MIT
 * @link https://github.com/thephpleague/csv/
-* @version 9.1.2
+* @version 9.1.4
 * @package League.csv
 *
 * For the full copyright and license information, please view the LICENSE
@@ -64,7 +64,7 @@ class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSe
     /**
      * {@inheritdoc}
      */
-    public static function createFromPath(string $path, string $open_mode = 'r', $context = null): AbstractCsv
+    public static function createFromPath(string $path, string $open_mode = 'r', $context = null)
     {
         return new static(Stream::createFromPath($path, $open_mode, $context));
     }

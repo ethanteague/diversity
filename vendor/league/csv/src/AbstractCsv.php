@@ -4,7 +4,7 @@
 *
 * @license http://opensource.org/licenses/MIT
 * @link https://github.com/thephpleague/csv/
-* @version 9.1.2
+* @version 9.1.4
 * @package League.csv
 *
 * For the full copyright and license information, please view the LICENSE
@@ -117,7 +117,7 @@ abstract class AbstractCsv implements ByteSequence
      *
      * @return static
      */
-    public static function createFromFileObject(SplFileObject $file): self
+    public static function createFromFileObject(SplFileObject $file)
     {
         return new static($file);
     }
@@ -129,7 +129,7 @@ abstract class AbstractCsv implements ByteSequence
      *
      * @return static
      */
-    public static function createFromStream($stream): self
+    public static function createFromStream($stream)
     {
         return new static(new Stream($stream));
     }
@@ -141,7 +141,7 @@ abstract class AbstractCsv implements ByteSequence
      *
      * @return static
      */
-    public static function createFromString(string $content): self
+    public static function createFromString(string $content)
     {
         return new static(Stream::createFromString($content));
     }
@@ -155,7 +155,7 @@ abstract class AbstractCsv implements ByteSequence
      *
      * @return static
      */
-    public static function createFromPath(string $path, string $open_mode = 'r+', $context = null): self
+    public static function createFromPath(string $path, string $open_mode = 'r+', $context = null)
     {
         return new static(Stream::createFromPath($path, $open_mode, $context));
     }
@@ -334,7 +334,7 @@ abstract class AbstractCsv implements ByteSequence
      *
      * Adapted from Symfony\Component\HttpFoundation\ResponseHeaderBag::makeDisposition
      *
-     * @param string|null $filename CSV disposition name
+     * @param string $filename CSV disposition name
      *
      * @throws Exception if the submitted header is invalid according to RFC 6266
      *

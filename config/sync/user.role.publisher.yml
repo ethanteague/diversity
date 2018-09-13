@@ -1,0 +1,40 @@
+uuid: 139a369f-753b-46d3-8797-f9cdec270c07
+langcode: en
+status: true
+dependencies: {  }
+id: publisher
+label: Publisher
+weight: 5
+is_admin: null
+permissions:
+  - 'access content overview'
+  - 'administer nodes'
+  - 'administer url aliases'
+  - 'bypass node access'
+  - 'create alert content'
+  - 'create basic_page content'
+  - 'create landing_page content'
+  - 'create url aliases'
+  - 'delete alert revisions'
+  - 'delete all revisions'
+  - 'delete any alert content'
+  - 'delete any basic_page content'
+  - 'delete any landing_page content'
+  - 'delete basic_page revisions'
+  - 'delete own alert content'
+  - 'delete own basic_page content'
+  - 'delete own landing_page content'
+  - 'edit any alert content'
+  - 'edit any basic_page content'
+  - 'edit own alert content'
+  - 'edit own basic_page content'
+  - 'revert all revisions'
+  - 'revert basic_page revisions'
+  - 'use content_moderation transition create_new_draft'
+  - 'use content_moderation transition publish'
+  - 'use content_moderation transition send_for_review'
+  - 'view all revisions'
+  - 'view any unpublished content'
+  - 'view basic_page revisions'
+  - 'view latest version'
+  - 'view unpublished paragraphs'

@@ -1,0 +1,28 @@
+uuid: 41b664e9-7c6d-41f1-855e-a8151b3cbd1a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.alert.field_alert_text
+    - node.type.alert
+  module:
+    - text
+    - user
+id: node.alert.default
+targetEntityType: node
+bundle: alert
+mode: default
+content:
+  field_alert_text:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  links:
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

@@ -1,10 +1,11 @@
 FROM php:7.1-apache
 
 # Install Drupal requirements.
-RUN apt-get update && apt-get -y install wget libpng-dev mysql-client libbz2-dev git zip unzip && \
-    docker-php-ext-install pdo pdo_mysql bz2 gd opcache mbstring zip && \
+RUN apt-get update && apt-get -y install wget libpng-dev libjpeg-dev mysql-client libbz2-dev git zip unzip && \
+    docker-php-ext-install pdo pdo_mysql bz2 opcache mbstring zip && \
     a2enmod rewrite && \
-    a2enmod headers
+    a2enmod headers && docker-php-ext-configure gd --with-jpeg-dir=/usr/lib/x86_64-linux-gnu/ --with-png-dir=/usr/lib/x86_64-linux-gnu/ \
+    && docker-php-ext-install gd
 
 # Use /app/src to simplify Drone testing.
 RUN sed -i'' 's|/var/www|/app/src|g' /etc/apache2/apache2.conf /etc/apache2/conf-enabled/docker-php.conf /etc/apache2/sites-enabled/000-default.conf

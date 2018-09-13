@@ -1,0 +1,44 @@
+uuid: 506b71ed-c019-4ba1-96ab-5c654a72d7e4
+langcode: en
+status: true
+dependencies: {  }
+id: editor
+label: Reviewer
+weight: 4
+is_admin: null
+permissions:
+  - 'access content overview'
+  - 'access files overview'
+  - 'access site in maintenance mode'
+  - 'access toolbar'
+  - 'administer menu'
+  - 'administer statistics'
+  - 'bypass node access'
+  - 'create alert content'
+  - 'create basic_page content'
+  - 'create landing_page content'
+  - 'create url aliases'
+  - 'delete any alert content'
+  - 'delete any basic_page content'
+  - 'delete own alert content'
+  - 'delete own basic_page content'
+  - 'edit any alert content'
+  - 'edit any basic_page content'
+  - 'edit own alert content'
+  - 'edit own basic_page content'
+  - 'revert alert revisions'
+  - 'revert all revisions'
+  - 'revert basic_page revisions'
+  - 'use content_moderation transition create_new_draft'
+  - 'use content_moderation transition send_for_review'
+  - 'use text format filtered_html'
+  - 'use text format full_html'
+  - 'view alert revisions'
+  - 'view all revisions'
+  - 'view any unpublished content'
+  - 'view basic_page revisions'
+  - 'view latest version'
+  - 'view own unpublished content'
+  - 'view post access counter'
+  - 'view the administration theme'
+  - 'view unpublished paragraphs'

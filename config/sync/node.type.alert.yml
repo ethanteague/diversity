@@ -1,0 +1,17 @@
+uuid: 137aea46-fdfe-4f00-ab6c-8cec55765e5a
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Alert
+type: alert
+description: 'A site wide announcement that appears on landing pages throughout the site, visible to all site users'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

@@ -40,11 +40,15 @@ class TwigEnvironment extends Twig_Environment {
     }));
 
     $this->addFilter(new Twig_SimpleFilter('underscore2hyphen', function ($string) {
+      // @codeCoverageIgnoreStart
       return str_replace('_', '-', $string);
+      // @codeCoverageIgnoreEnd
     }, ['deprecated' => TRUE]));
 
     $this->addFilter(new Twig_SimpleFilter('hyphen2underscore', function ($string) {
+      // @codeCoverageIgnoreStart
       return str_replace('-', '_', $string);
+      // @codeCoverageIgnoreEnd
     }, ['deprecated' => TRUE]));
 
     $this->addFilter(new Twig_SimpleFilter('u2h', function ($string) {
@@ -60,6 +64,21 @@ class TwigEnvironment extends Twig_Environment {
     }));
 
     $this->addTokenParser(new TwigSortTokenParser());
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function tokenize($source, $name = NULL) {
+    if (!$source instanceof \Twig_Source) {
+      $source = new \Twig_Source($source, $name);
+    }
+    // Remove leading whitespaces to preserve indentation.
+    // @see https://github.com/twigphp/Twig/issues/1423
+    $code = preg_replace("/\n +\{%-/", "\n{%", $source->getCode());
+    // Twig source has no setters.
+    $source = new \Twig_Source($code, $source->getName(), $source->getPath());
+    return parent::tokenize($source, $name);
   }
 
 }

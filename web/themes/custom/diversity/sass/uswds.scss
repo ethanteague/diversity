@@ -1,0 +1,21 @@
+// Import overrides of USWDS variables.
+@import "_variables.scss";
+// Import the USWDS source.
+@import "../node_modules/uswds/src/stylesheets/uswds.scss";
+
+.usa-header {
+  background: $color-blue-darkest;
+}
+
+.usa-logo a {
+  color: $color-aqua-lightest;
+}
+
+.usa-nav-secondary-links a {
+  color: $color-aqua-lightest;
+  font-weight: bold;
+
+  &:hover {
+    color: $color-aqua-light;
+  }
+}

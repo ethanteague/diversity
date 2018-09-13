@@ -3,13 +3,17 @@
 namespace Drupal\Tests\content_moderation\Functional;
 
 use Drupal\Core\Session\AccountInterface;
+use Drupal\node\Entity\NodeType;
 use Drupal\Tests\BrowserTestBase;
+use Drupal\Tests\content_moderation\Traits\ContentModerationTestTrait;
 use Drupal\user\Entity\Role;
 
 /**
  * Defines a base class for moderation state tests.
  */
 abstract class ModerationStateTestBase extends BrowserTestBase {
+
+  use ContentModerationTestTrait;
 
   /**
    * Profile to use.
@@ -46,6 +50,13 @@ abstract class ModerationStateTestBase extends BrowserTestBase {
   ];
 
   /**
+   * The editorial workflow entity.
+   *
+   * @var \Drupal\workflows\Entity\Workflow
+   */
+  protected $workflow;
+
+  /**
    * Modules to enable.
    *
    * @var array
@@ -63,6 +74,7 @@ abstract class ModerationStateTestBase extends BrowserTestBase {
    */
   protected function setUp() {
     parent::setUp();
+    $this->workflow = $this->createEditorialWorkflow();
     $this->adminUser = $this->drupalCreateUser($this->permissions);
     $this->drupalPlaceBlock('local_tasks_block', ['id' => 'tabs_block']);
     $this->drupalPlaceBlock('page_title_block');
@@ -110,6 +122,9 @@ abstract class ModerationStateTestBase extends BrowserTestBase {
     ];
     $this->drupalPostForm(NULL, $edit, t('Save content type'));
 
+    // Check the content type has been set to create new revisions.
+    $this->assertTrue(NodeType::load($content_type_id)->isNewRevision());
+
     if ($moderated) {
       $this->enableModerationThroughUi($content_type_id, $workflow_id);
     }
@@ -132,6 +147,9 @@ abstract class ModerationStateTestBase extends BrowserTestBase {
     // @see content_moderation_workflow_insert()
     \Drupal::service('entity_type.bundle.info')->clearCachedBundles();
     \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+    /** @var \Drupal\Core\Routing\RouteBuilderInterface $router_builder */
+    $router_builder = $this->container->get('router.builder');
+    $router_builder->rebuildIfNeeded();
   }
 
   /**

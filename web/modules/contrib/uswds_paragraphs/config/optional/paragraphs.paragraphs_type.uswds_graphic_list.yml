@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {  }
+id: uswds_graphic_list
+label: 'Graphic list'
+behavior_plugins: {  }

@@ -1,5 +1,19 @@
 # Change Log
 
+### 2.8.5 - 18 Aug 2018
+
+- Add dependencies.yml for dependencies.io
+- Fix warning in AnnotatedCommandFactory when getCommandInfoListFromCache called with null.
+
+### 2.8.4 - 25 May 2018
+
+- Use g1a/composer-test-scenarios for better PHP version matrix testing.
+
+### 2.8.3 - 23 Feb 2018
+
+- BUGFIX: Do not shift off the command name unless it is there. (#139)
+- Use test scenarios to test multiple versions of Symfony. (#136, #137)
+
 ### 2.8.2 - 29 Nov 2017
 
 - Allow Symfony 4 components.

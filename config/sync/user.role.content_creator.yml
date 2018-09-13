@@ -1,0 +1,32 @@
+uuid: 5c1eb6df-b7ee-4a5a-808d-f69572fba922
+langcode: en
+status: true
+dependencies: {  }
+id: content_creator
+label: 'Content creator'
+weight: 3
+is_admin: null
+permissions:
+  - 'access content overview'
+  - 'access files overview'
+  - 'access toolbar'
+  - 'create alert content'
+  - 'create basic_page content'
+  - 'create landing_page content'
+  - 'create url aliases'
+  - 'delete own alert content'
+  - 'delete own basic_page content'
+  - 'edit any alert content'
+  - 'edit any basic_page content'
+  - 'edit own alert content'
+  - 'edit own basic_page content'
+  - 'use content_moderation transition create_new_draft'
+  - 'use content_moderation transition send_for_review'
+  - 'use text format filtered_html'
+  - 'use text format full_html'
+  - 'view alert revisions'
+  - 'view basic_page revisions'
+  - 'view latest version'
+  - 'view own unpublished content'
+  - 'view the administration theme'
+  - 'view unpublished paragraphs'

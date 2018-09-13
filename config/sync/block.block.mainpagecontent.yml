@@ -1,0 +1,20 @@
+uuid: f6a50866-8e77-4a42-8860-d1c8963d3f6a
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - vademo
+id: mainpagecontent
+theme: vademo
+region: content
+weight: -2
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  provider: system
+  label_display: '0'
+visibility: {  }
