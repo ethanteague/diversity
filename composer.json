@@ -62,6 +62,8 @@
         "drupal/menu_trail_by_path": "^1.1",
         "drupal/migrate_file": "^1.0@alpha",
         "drupal/migrate_plus": "^4.0",
+        "drupal/migrate_source_csv": "^2.2",
+        "drupal/migrate_tools": "^4.0",
         "drupal/module_filter": "^3.1",
         "drupal/no_autocomplete": "^1.4",
         "drupal/paragraphs": "^1.2",
